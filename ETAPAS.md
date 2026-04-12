@@ -212,34 +212,34 @@ Objetivo: Planos de leitura com progresso e calendario liturgico.
 
 ### 4.1 Planos de Leitura
 
-- [ ] Dados dos planos pre-definidos:
+- [x] Dados dos planos pre-definidos:
   - Biblia em 1 ano
   - Novo Testamento em 90 dias
   - Salmos e Proverbios (mensal)
   - Tematicos: ansiedade, familia, lideranca, proposito
-- [ ] `src/features/reading-plans/services/planService.ts`
-- [ ] Tela de listagem de planos disponiveis
-- [ ] Tela de detalhe do plano com dias
-- [ ] `ReadingChecklistItem` — componente compartilhado
-- [ ] Marcar dia como concluido
-- [ ] Progresso salvo no Supabase (reading_progress)
-- [ ] Barra de progresso visual
+- [x] `src/features/reading-plans/services/planService.ts`
+- [x] Tela de listagem de planos disponiveis
+- [x] Tela de detalhe do plano com dias
+- [x] `ReadingChecklistItem` — componente compartilhado
+- [x] Marcar dia como concluido
+- [x] Progresso salvo no Supabase (reading_progress)
+- [x] Barra de progresso visual
 
 ### 4.2 Calendario Liturgico
 
-- [ ] Dados do calendario (feriados cristãos, datas biblicas)
-- [ ] `CalendarDay` — componente compartilhado
-- [ ] Visualizacao mensal com marcacoes
-- [ ] Detalhe do dia: historia biblica + versiculo relacionado
-- [ ] Suporte a datas evangelicas e catolicas
-- [ ] `src/features/calendar/services/calendarService.ts`
+- [x] Dados do calendario (feriados cristãos, datas biblicas)
+- [x] `CalendarDay` — componente compartilhado
+- [x] Visualizacao mensal com marcacoes
+- [x] Detalhe do dia: historia biblica + versiculo relacionado
+- [x] Suporte a datas evangelicas e catolicas
+- [x] `src/features/calendar/services/calendarService.ts`
 
 ### 4.3 Streak e Progresso
 
-- [ ] Calculo de dias consecutivos de leitura
-- [ ] Exibicao do streak na home e perfil
-- [ ] Indicador visual de conquista (badges)
-- [ ] Estatisticas mensais (versiculos lidos, dias ativos)
+- [x] Calculo de dias consecutivos de leitura
+- [x] Exibicao do streak na home e perfil
+- [x] Indicador visual de conquista (badges)
+- [x] Estatisticas mensais (versiculos lidos, dias ativos)
 
 ### Entregaveis
 

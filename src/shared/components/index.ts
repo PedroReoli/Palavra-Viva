@@ -28,3 +28,9 @@ export { default as VerseCard } from './VerseCard';
 
 // Chat
 export { default as ChatBubble } from './ChatBubble';
+
+// Planos de leitura
+export { default as ReadingChecklistItem } from './ReadingChecklistItem';
+
+// Calendario
+export { default as CalendarDay } from './CalendarDay';
