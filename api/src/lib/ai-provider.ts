@@ -1,22 +1,15 @@
 /**
  * Palavra Viva — AI Provider Abstraction
  *
- * Para trocar de provider, edite APENAS este arquivo.
- * O resto da aplicacao consome via interface generica.
+ * Provider padrao: Google Gemini (configuravel via .env)
  *
- * Providers suportados (descomente o que quiser usar):
- *   - OpenAI (GPT-4, GPT-4o)
- *   - Anthropic (Claude)
- *   - Google (Gemini)
- *   - Groq
- *   - OpenRouter (qualquer modelo)
- *   - Ollama (local)
+ * Para trocar de provider, edite APENAS o .env da API:
+ *   AI_PROVIDER=google
+ *   AI_API_KEY=sua-chave
+ *   AI_MODEL=gemini-2.0-flash
  *
- * Configuracao via .env:
- *   AI_PROVIDER=openai | anthropic | google | groq | openrouter | ollama
- *   AI_API_KEY=sua-chave-aqui
- *   AI_MODEL=nome-do-modelo
- *   AI_BASE_URL=(opcional, para endpoints custom)
+ * Este arquivo abstrai a comunicacao com qualquer provider.
+ * O resto da aplicacao nao precisa saber qual provider esta ativo.
  */
 
 // ---------------------------------------------------------------------------
@@ -26,12 +19,6 @@
 export interface AIMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
-}
-
-export interface AIStreamCallbacks {
-  onChunk: (text: string) => void;
-  onDone: (fullText: string) => void;
-  onError: (error: string) => void;
 }
 
 export interface AIProviderConfig {
@@ -45,11 +32,15 @@ export interface AIProviderConfig {
 // Configuracao (lida do .env)
 // ---------------------------------------------------------------------------
 
-type ProviderType = 'openai' | 'anthropic' | 'google' | 'groq' | 'openrouter' | 'ollama';
+type ProviderType = 'google' | 'openai' | 'anthropic' | 'groq' | 'openrouter' | 'ollama';
 
-const PROVIDER = (process.env.AI_PROVIDER ?? 'openai') as ProviderType;
+const PROVIDER = (process.env.AI_PROVIDER ?? 'google') as ProviderType;
 
 const PROVIDER_DEFAULTS: Record<ProviderType, { baseUrl: string; model: string }> = {
+  google: {
+    baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+    model: 'gemini-2.0-flash',
+  },
   openai: {
     baseUrl: 'https://api.openai.com/v1',
     model: 'gpt-4o',
@@ -58,17 +49,13 @@ const PROVIDER_DEFAULTS: Record<ProviderType, { baseUrl: string; model: string }
     baseUrl: 'https://api.anthropic.com/v1',
     model: 'claude-sonnet-4-20250514',
   },
-  google: {
-    baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
-    model: 'gemini-2.0-flash',
-  },
   groq: {
     baseUrl: 'https://api.groq.com/openai/v1',
     model: 'llama-3.3-70b-versatile',
   },
   openrouter: {
     baseUrl: 'https://openrouter.ai/api/v1',
-    model: 'anthropic/claude-sonnet-4',
+    model: 'google/gemini-2.0-flash',
   },
   ollama: {
     baseUrl: 'http://localhost:11434/v1',
@@ -102,12 +89,12 @@ Nunca invente versiculos. Se nao souber, diga que nao tem certeza.
 Mantenha um tom acolhedor, pastoral e educativo.`;
 
 // ---------------------------------------------------------------------------
-// Implementacao por provider
+// Funcao principal
 // ---------------------------------------------------------------------------
 
 /**
  * Envia mensagens para o provider de IA com streaming.
- * Retorna a resposta como stream de texto via callbacks.
+ * Retorna um ReadableStream para pipe direto ao client via SSE.
  */
 export async function streamChat(
   messages: AIMessage[],
@@ -118,19 +105,91 @@ export async function streamChat(
   }
 
   switch (PROVIDER) {
+    case 'google':
+      return streamGemini(messages, systemPrompt);
     case 'anthropic':
       return streamAnthropic(messages, systemPrompt);
-    case 'google':
-      return streamGoogle(messages, systemPrompt);
     default:
-      // OpenAI, Groq, OpenRouter e Ollama usam formato OpenAI-compatible
       return streamOpenAICompatible(messages, systemPrompt);
   }
 }
 
+// ---------------------------------------------------------------------------
+// Google Gemini (provider padrao)
+// ---------------------------------------------------------------------------
+
 /**
- * Formato OpenAI-compatible (OpenAI, Groq, OpenRouter, Ollama).
+ * Modelos Gemini disponiveis (referencia):
+ *
+ *   gemini-2.0-flash       — Rapido, barato, bom para chat (RECOMENDADO)
+ *   gemini-2.0-flash-lite  — Mais rapido ainda, menor custo
+ *   gemini-2.5-flash       — Mais inteligente, com "thinking"
+ *   gemini-2.5-pro         — Mais capaz, para tarefas complexas
+ *
+ * Limites do plano gratuito (Google AI Studio):
+ *   - 15 RPM (requests por minuto)
+ *   - 1.500 RPD (requests por dia)
+ *   - 1.000.000 TPM (tokens por minuto)
  */
+async function streamGemini(
+  messages: AIMessage[],
+  systemPrompt: string,
+): Promise<ReadableStream<Uint8Array> | null> {
+  // Converter mensagens para formato Gemini
+  const contents = messages
+    .filter((m) => m.role !== 'system')
+    .map((m) => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    }));
+
+  const url = `${config.baseUrl}/models/${config.model}:streamGenerateContent?alt=sse&key=${config.apiKey}`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      // System instruction (equivalente ao system prompt)
+      system_instruction: {
+        parts: [{ text: systemPrompt }],
+      },
+
+      // Historico de mensagens
+      contents,
+
+      // Configuracao de geracao
+      generationConfig: {
+        maxOutputTokens: config.maxTokens,
+        temperature: 0.7,
+        topP: 0.95,
+        topK: 40,
+      },
+
+      // Safety settings — permissivos para conteudo religioso
+      // Sem isso, o Gemini pode bloquear discussoes teologicas
+      safetySettings: [
+        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '');
+    console.error(`[Gemini] Erro ${response.status}: ${errorBody}`);
+    return null;
+  }
+
+  if (!response.body) return null;
+  return response.body;
+}
+
+// ---------------------------------------------------------------------------
+// OpenAI-compatible (OpenAI, Groq, OpenRouter, Ollama)
+// ---------------------------------------------------------------------------
+
 async function streamOpenAICompatible(
   messages: AIMessage[],
   systemPrompt: string,
@@ -144,6 +203,7 @@ async function streamOpenAICompatible(
     body: JSON.stringify({
       model: config.model,
       max_tokens: config.maxTokens,
+      temperature: 0.7,
       stream: true,
       messages: [
         { role: 'system', content: systemPrompt },
@@ -156,9 +216,10 @@ async function streamOpenAICompatible(
   return response.body;
 }
 
-/**
- * Formato Anthropic (Claude).
- */
+// ---------------------------------------------------------------------------
+// Anthropic (Claude)
+// ---------------------------------------------------------------------------
+
 async function streamAnthropic(
   messages: AIMessage[],
   systemPrompt: string,
@@ -185,76 +246,12 @@ async function streamAnthropic(
   return response.body;
 }
 
-/**
- * Formato Google Gemini.
- */
-async function streamGoogle(
-  messages: AIMessage[],
-  systemPrompt: string,
-): Promise<ReadableStream<Uint8Array> | null> {
-  const contents = messages
-    .filter((m) => m.role !== 'system')
-    .map((m) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
-
-  const response = await fetch(
-    `${config.baseUrl}/models/${config.model}:streamGenerateContent?alt=sse&key=${config.apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemPrompt }] },
-        contents,
-        generationConfig: { maxOutputTokens: config.maxTokens },
-      }),
-    },
-  );
-
-  if (!response.ok || !response.body) return null;
-  return response.body;
-}
-
 // ---------------------------------------------------------------------------
-// Utilitarios para parsear SSE por provider
+// Utilitarios
 // ---------------------------------------------------------------------------
 
 /**
- * Extrai texto de um chunk SSE baseado no provider ativo.
- * Use no pipe do stream para o client.
- */
-export function parseSSEChunk(line: string): string | null {
-  if (!line.startsWith('data: ')) return null;
-  const data = line.slice(6).trim();
-  if (data === '[DONE]') return null;
-
-  try {
-    const parsed = JSON.parse(data);
-
-    switch (PROVIDER) {
-      case 'anthropic':
-        // content_block_delta
-        if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-          return parsed.delta.text;
-        }
-        return null;
-
-      case 'google':
-        // candidates[0].content.parts[0].text
-        return parsed.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
-
-      default:
-        // OpenAI-compatible: choices[0].delta.content
-        return parsed.choices?.[0]?.delta?.content ?? null;
-    }
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Retorna o provider ativo para logs/debug.
+ * Retorna informacoes do provider ativo (para debug/logs).
  */
 export function getProviderInfo() {
   return {

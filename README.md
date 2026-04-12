@@ -33,7 +33,7 @@ Palavra Viva e um app biblico com IA conversacional em PT-BR. O usuario le a Bib
 | Navegacao         | Expo Router               | File-based routing, deep linking            |
 | Backend (in-app)  | Supabase                  | Auth, banco, storage, RLS                   |
 | Backend (VPS)     | Node.js + Express         | API minima: contas, assinatura, proxy IA    |
-| IA                | Provider configuravel     | OpenAI, Anthropic, Google, Groq, OpenRouter, Ollama |
+| IA                | Google Gemini (padrao)     | Plano gratuito generoso, rapido, bom em PT-BR. Configuravel para outros providers |
 | Biblia            | API.Bible                 | Gratuita, multiplas versoes em PT-BR        |
 | Pagamento         | RevenueCat                | Assinaturas mobile (App Store + Play Store) |
 | Estado            | Zustand                   | Leve, hook-based, persistencia facil        |
@@ -452,9 +452,9 @@ REVENUECAT_API_KEY_ANDROID=
 
 # Apenas no VPS (nunca no client)
 SUPABASE_SERVICE_ROLE_KEY=
-AI_PROVIDER=openai                 # openai | anthropic | google | groq | openrouter | ollama
-AI_API_KEY=
-AI_MODEL=                          # Opcional — usa default do provider
+AI_PROVIDER=google                 # Padrao: Gemini. Outros: openai, anthropic, groq, openrouter, ollama
+AI_API_KEY=                        # Chave do Google AI Studio (AIza...)
+AI_MODEL=gemini-2.0-flash         # Opcional — usa default do provider
 REVENUECAT_WEBHOOK_SECRET=
 ```
 
@@ -485,3 +485,16 @@ Consulte [ETAPAS.md](ETAPAS.md) para o roadmap completo com checklists por sprin
 Consulte [docs/ai/project-rules.md](docs/ai/project-rules.md) para regras de codigo, interface e seguranca.
 
 Consulte [AGENTS.md](AGENTS.md) para regras gerais de agentes IA neste repositorio.
+
+---
+
+## Configuracao da IA
+
+O Palavra Viva usa **Google Gemini** como provider padrao de IA.
+
+Consulte [docs/guia-gemini.md](docs/guia-gemini.md) para:
+- Como obter a chave de API (gratuita)
+- Modelos disponiveis e precos
+- Limites do plano gratuito
+- Troubleshooting
+- Como trocar para outro provider
