@@ -35,14 +35,9 @@ export const fontFamilies = {
 // Nomes das fontes para carregamento (expo-font / useFonts)
 // ---------------------------------------------------------------------------
 
-export const fontAssets = {
-  Poppins_600SemiBold: require('@/assets/fonts/Poppins-SemiBold.ttf'),
-  Poppins_700Bold: require('@/assets/fonts/Poppins-Bold.ttf'),
-  Inter_400Regular: require('@/assets/fonts/Inter-Regular.ttf'),
-  Inter_500Medium: require('@/assets/fonts/Inter-Medium.ttf'),
-  Lora_400Regular: require('@/assets/fonts/Lora-Regular.ttf'),
-  Lora_700Bold: require('@/assets/fonts/Lora-Bold.ttf'),
-} as const;
+// Fontes carregadas via @expo-google-fonts.
+// O carregamento e feito no _layout.tsx raiz com useFonts().
+// Os nomes abaixo correspondem exatamente aos exports dos pacotes.
 
 // ---------------------------------------------------------------------------
 // Escala de tamanho

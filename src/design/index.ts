@@ -20,7 +20,6 @@ export {
 // Tipografia
 export {
   fontFamilies,
-  fontAssets,
   fontSizes,
   lineHeights,
   fontWeights,

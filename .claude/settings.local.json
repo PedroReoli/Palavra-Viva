@@ -3,7 +3,15 @@
     "allow": [
       "WebSearch",
       "Read(//f/Projetos/Reoli/_SaaS//**)",
-      "Read(//f/Projetos/Reoli/_SaaS/**)"
+      "Read(//f/Projetos/Reoli/_SaaS/**)",
+      "Bash(npm --version)",
+      "Bash(npx --yes create-expo-app@latest . --template blank-typescript)",
+      "Bash(npx --yes create-expo-app@latest palavra-viva --template blank-typescript)",
+      "Bash(cp palavra-viva/App.tsx .)",
+      "Bash(cp palavra-viva/app.json .)",
+      "Bash(cp palavra-viva/index.ts .)",
+      "Bash(cp palavra-viva/package.json .)",
+      "Bash(cp palavra-viva/package-lock.json .)"
     ]
   }
 }

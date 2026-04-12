@@ -220,5 +220,9 @@ export const darkColors = {
 // Tipos
 // ---------------------------------------------------------------------------
 
-export type ColorTokens = typeof lightColors;
+export type ColorTokens = {
+  [K in keyof typeof lightColors]: K extends 'highlight'
+    ? typeof highlightColors | typeof highlightColorsDark
+    : string;
+};
 export type HighlightColor = keyof typeof highlightColors;
