@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 
 import { authenticate } from '../middleware/authenticate';
 import { validate } from '../middleware/validate';
+import { streamChat, SYSTEM_PROMPT, getProviderInfo } from '../lib/ai-provider';
 
 export const aiRouter = Router();
 
@@ -36,57 +37,20 @@ const chatSchema = z.object({
 aiRouter.post('/chat', authenticate, aiRateLimit, validate(chatSchema), async (req, res) => {
   try {
     const { messages } = req.body;
-    const claudeApiKey = process.env.CLAUDE_API_KEY;
 
-    if (!claudeApiKey) {
+    const stream = await streamChat(messages, SYSTEM_PROMPT);
+
+    if (!stream) {
       res.status(503).json({ error: 'Servico de IA indisponivel' });
       return;
     }
 
-    const systemPrompt = `Voce e um assistente espiritual cristao chamado "Palavra Viva".
-Suas respostas devem ser:
-- Baseadas exclusivamente na Biblia Sagrada
-- Em portugues brasileiro
-- Respeitosas com todas as denominacoes cristas
-- Contextualizadas historica e teologicamente
-- Praticas e aplicaveis ao dia a dia
-
-Ao citar versiculos, use o formato: "Texto" (Livro Capitulo:Versiculo).
-Nunca invente versiculos. Se nao souber, diga que nao tem certeza.
-Mantenha um tom acolhedor, pastoral e educativo.`;
-
-    // Proxy para Claude API com streaming (SSE)
+    // Proxy do stream para o client via SSE
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': claudeApiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2048,
-        system: systemPrompt,
-        messages: messages.map((m: { role: string; content: string }) => ({
-          role: m.role,
-          content: m.content,
-        })),
-        stream: true,
-      }),
-    });
-
-    if (!response.ok || !response.body) {
-      res.write(`data: ${JSON.stringify({ error: 'Erro ao conectar com IA' })}\n\n`);
-      res.end();
-      return;
-    }
-
-    // Pipe do stream da Claude API para o client
-    const reader = response.body.getReader();
+    const reader = stream.getReader();
     const decoder = new TextDecoder();
 
     while (true) {
@@ -98,8 +62,23 @@ Mantenha um tom acolhedor, pastoral e educativo.`;
     }
 
     res.end();
-  } catch {
-    res.write(`data: ${JSON.stringify({ error: 'Erro interno do servidor' })}\n\n`);
-    res.end();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Erro interno do servidor';
+    if (!res.headersSent) {
+      res.status(500).json({ error: message });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: message })}\n\n`);
+      res.end();
+    }
   }
 });
+
+// ---------------------------------------------------------------------------
+// GET /ai/info (debug — somente em dev)
+// ---------------------------------------------------------------------------
+
+if (process.env.NODE_ENV === 'development') {
+  aiRouter.get('/info', (_req, res) => {
+    res.json(getProviderInfo());
+  });
+}

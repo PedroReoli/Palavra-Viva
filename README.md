@@ -33,7 +33,7 @@ Palavra Viva e um app biblico com IA conversacional em PT-BR. O usuario le a Bib
 | Navegacao         | Expo Router               | File-based routing, deep linking            |
 | Backend (in-app)  | Supabase                  | Auth, banco, storage, RLS                   |
 | Backend (VPS)     | Node.js + Express         | API minima: contas, assinatura, proxy IA    |
-| IA                | Claude API (Anthropic)    | Melhor raciocinio em PT-BR, contexto longo  |
+| IA                | Provider configuravel     | OpenAI, Anthropic, Google, Groq, OpenRouter, Ollama |
 | Biblia            | API.Bible                 | Gratuita, multiplas versoes em PT-BR        |
 | Pagamento         | RevenueCat                | Assinaturas mobile (App Store + Play Store) |
 | Estado            | Zustand                   | Leve, hook-based, persistencia facil        |
@@ -179,9 +179,9 @@ Responsavel apenas por:
 | `/subscription/webhook`     | POST   | Webhook do RevenueCat              |
 | `/user/profile`             | GET    | Buscar perfil                      |
 | `/user/profile`             | PUT    | Atualizar perfil                   |
-| `/ai/chat`                  | POST   | Proxy para Claude API              |
+| `/ai/chat`                  | POST   | Proxy para IA (provider configuravel) |
 
-**Regra:** A Claude API key nunca e exposta no client. Todas as chamadas de IA passam pelo VPS (ou Supabase Edge Function).
+**Regra:** A chave de IA nunca e exposta no client. Todas as chamadas passam pelo VPS (proxy). O provider e configuravel via `AI_PROVIDER` no `.env` da API.
 
 ### Fluxo de Dados
 
@@ -423,7 +423,7 @@ favorites (
 - Conta Supabase
 - Conta RevenueCat
 - Chave API.Bible
-- Chave Claude API (Anthropic)
+- Chave de IA (OpenAI, Anthropic, Google, Groq, OpenRouter ou Ollama local)
 - VPS com Node.js (para API minima)
 
 ### Instalacao
@@ -452,7 +452,9 @@ REVENUECAT_API_KEY_ANDROID=
 
 # Apenas no VPS (nunca no client)
 SUPABASE_SERVICE_ROLE_KEY=
-CLAUDE_API_KEY=
+AI_PROVIDER=openai                 # openai | anthropic | google | groq | openrouter | ollama
+AI_API_KEY=
+AI_MODEL=                          # Opcional — usa default do provider
 REVENUECAT_WEBHOOK_SECRET=
 ```
 

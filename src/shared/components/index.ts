@@ -25,3 +25,6 @@ export { default as Avatar } from './Avatar';
 
 // Biblico
 export { default as VerseCard } from './VerseCard';
+
+// Chat
+export { default as ChatBubble } from './ChatBubble';

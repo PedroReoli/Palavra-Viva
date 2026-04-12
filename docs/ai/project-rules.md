@@ -8,7 +8,7 @@ Deve ser lido e seguido por qualquer agente de IA que atue neste repositorio.
 ## 1. Visao Geral
 
 - App mobile de Biblia com IA conversacional
-- Stack: Expo (React Native), Supabase, Claude API, RevenueCat
+- Stack: Expo (React Native), Supabase, IA configuravel (via proxy VPS), RevenueCat
 - Arquitetura: feature-first com design system compartilhado
 - Idioma do app: portugues brasileiro
 - Publico: cristaos evangelicos e catolicos
@@ -199,7 +199,7 @@ Componentes obrigatorios do design system:
 |--------------------------|--------------------|--------------|
 | Supabase anon key        | App (client)       | Sim (RLS protege) |
 | Supabase service role    | VPS apenas         | Nunca        |
-| Claude API key           | VPS apenas         | Nunca        |
+| AI_API_KEY (IA)          | VPS apenas         | Nunca        |
 | API.Bible key            | App (client)       | Sim          |
 | RevenueCat public key    | App (client)       | Sim          |
 | RevenueCat webhook secret | VPS apenas        | Nunca        |
@@ -287,13 +287,17 @@ Ordem dentro de um arquivo de componente:
 - Cache agressivo via TanStack Query (`staleTime: Infinity` para conteudo biblico)
 - Servico em `src/features/bible/services/bibleService.ts`
 
-### 7.2 Claude API (via VPS)
+### 7.2 IA Conversacional (via VPS — provider configuravel)
 
 - Endpoint: `POST /ai/chat` no VPS
+- Provider configuravel via `AI_PROVIDER` no `.env` da API
+- Providers suportados: OpenAI, Anthropic, Google, Groq, OpenRouter, Ollama
+- Abstração em `api/src/lib/ai-provider.ts` — trocar provider sem alterar rotas
+- Parser SSE generico no client: `src/shared/utils/parseSSE.ts`
 - System prompt no backend (nunca no client)
 - Streaming via Server-Sent Events (SSE)
 - Historico de contexto limitado a ultimas 20 mensagens
-- Servico em `src/features/ai-chat/services/chatService.ts`
+- Servico no client: `src/features/ai-chat/services/chatService.ts`
 
 ### 7.3 RevenueCat
 
@@ -321,7 +325,7 @@ O VPS so implementa:
 - Registro e login de contas
 - Gerenciamento de assinatura (webhook + status)
 - Perfil de usuario
-- Proxy de IA (Claude API)
+- Proxy de IA (provider configuravel via `ai-provider.ts`)
 
 Tudo fora desse escopo usa Supabase diretamente do app.
 

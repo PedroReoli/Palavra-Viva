@@ -6,6 +6,7 @@ import {
   Copy,
   ShareNetwork,
   Heart,
+  ChatCircle,
 } from 'phosphor-react-native';
 import * as Clipboard from 'expo-clipboard';
 
@@ -30,6 +31,7 @@ interface VerseActionSheetProps {
   onNote: (content: string) => void;
   onFavorite: () => void;
   onShare: () => void;
+  onAskAI?: () => void;
 }
 
 type ActionMode = 'actions' | 'colors' | 'note';
@@ -47,6 +49,7 @@ export default function VerseActionSheet({
   reference,
   onHighlight,
   onNote,
+  onAskAI,
   onFavorite,
   onShare,
 }: VerseActionSheetProps) {
@@ -108,6 +111,13 @@ export default function VerseActionSheet({
             label="Compartilhar"
             onPress={() => { onShare(); handleClose(); }}
           />
+          {onAskAI && (
+            <ActionButton
+              icon={<ChatCircle size={22} color={colors.icon} />}
+              label="Perguntar IA"
+              onPress={() => { onAskAI(); handleClose(); }}
+            />
+          )}
           <ActionButton
             icon={<Heart size={22} color={colors.icon} />}
             label="Favoritar"

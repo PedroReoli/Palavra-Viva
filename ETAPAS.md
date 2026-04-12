@@ -159,43 +159,43 @@ Objetivo: Chat com IA e devocionais personalizados funcionando.
 
 ### 3.1 Proxy de IA
 
-- [ ] `POST /ai/chat` no VPS (proxy para Claude API)
-- [ ] System prompt especializado (teologo, contextualista, conselheiro)
-- [ ] Streaming de respostas (SSE)
-- [ ] Limite de mensagens por plano (free vs premium)
-- [ ] Rate limiting por usuario
+- [x] `POST /ai/chat` no VPS (proxy para Claude API)
+- [x] System prompt especializado (teologo, contextualista, conselheiro)
+- [x] Streaming de respostas (SSE)
+- [x] Limite de mensagens por plano (free vs premium)
+- [x] Rate limiting por usuario
 
 ### 3.2 Interface de Chat
 
-- [ ] `ChatBubble` (user e AI) — componente compartilhado
-- [ ] `ChatInput` com sugestoes rapidas de perguntas
-- [ ] Lista de mensagens com scroll automatico
-- [ ] Indicador de loading/streaming
-- [ ] `src/features/ai-chat/services/chatService.ts`
-- [ ] `src/features/ai-chat/stores/chatStore.ts`
-- [ ] `src/features/ai-chat/hooks/useChat.ts`
+- [x] `ChatBubble` (user e AI) — componente compartilhado
+- [x] `ChatInput` com sugestoes rapidas de perguntas
+- [x] Lista de mensagens com scroll automatico
+- [x] Indicador de loading/streaming
+- [x] `src/features/ai-chat/services/chatService.ts`
+- [x] `src/features/ai-chat/stores/chatStore.ts`
+- [x] `src/features/ai-chat/hooks/useChat.ts`
 
 ### 3.3 Historico de Conversas
 
-- [ ] Lista de conversas anteriores
-- [ ] Persistencia no Supabase (conversations + messages)
-- [ ] Titulo automatico da conversa (primeira pergunta)
-- [ ] Excluir conversa
+- [x] Lista de conversas anteriores
+- [x] Persistencia no Supabase (conversations + messages)
+- [x] Titulo automatico da conversa (primeira pergunta)
+- [x] Excluir conversa
 
 ### 3.4 Integracao Biblia + IA
 
-- [ ] Acao "Perguntar a IA sobre este versiculo" no menu do leitor
-- [ ] Contexto automatico (livro, capitulo, passagem)
-- [ ] Referencias biblicas clicaveis nas respostas da IA
+- [x] Acao "Perguntar a IA sobre este versiculo" no menu do leitor
+- [x] Contexto automatico (livro, capitulo, passagem)
+- [x] Referencias biblicas clicaveis nas respostas da IA
 
 ### 3.5 Devocional Personalizado
 
-- [ ] `src/features/devotional/services/devotionalService.ts`
-- [ ] Tela de input: "Como voce esta hoje?" ou tema livre
-- [ ] Geracao via Claude API (passagem + reflexao + oracao + aplicacao)
-- [ ] Componente de resultado do devocional
-- [ ] Persistencia no Supabase (devotionals)
-- [ ] Salvar e compartilhar devocional
+- [x] `src/features/devotional/services/devotionalService.ts`
+- [x] Tela de input: "Como voce esta hoje?" ou tema livre
+- [x] Geracao via Claude API (passagem + reflexao + oracao + aplicacao)
+- [x] Componente de resultado do devocional
+- [x] Persistencia no Supabase (devotionals)
+- [x] Salvar e compartilhar devocional
 
 ### Entregaveis
 
