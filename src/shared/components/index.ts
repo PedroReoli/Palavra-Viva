@@ -34,3 +34,6 @@ export { default as ReadingChecklistItem } from './ReadingChecklistItem';
 
 // Calendario
 export { default as CalendarDay } from './CalendarDay';
+
+// Audio
+export { default as AudioPlayer } from './AudioPlayer';

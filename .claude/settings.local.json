@@ -11,7 +11,8 @@
       "Bash(cp palavra-viva/app.json .)",
       "Bash(cp palavra-viva/index.ts .)",
       "Bash(cp palavra-viva/package.json .)",
-      "Bash(cp palavra-viva/package-lock.json .)"
+      "Bash(cp palavra-viva/package-lock.json .)",
+      "Bash(find src/shared/services/notification* -type f)"
     ]
   }
 }

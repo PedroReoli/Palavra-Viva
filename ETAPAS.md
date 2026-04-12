@@ -256,50 +256,50 @@ Objetivo: Verse cards, audio, notificacoes e onboarding.
 
 ### 5.1 Gerador de Verse Card
 
-- [ ] `src/features/verse-card/` completo
-- [ ] Templates visuais (natureza, minimalista, aquarela, escuro)
-- [ ] Selecao de versiculo + template
-- [ ] Renderizacao com `react-native-view-shot`
-- [ ] Download em alta resolucao
-- [ ] Compartilhamento para WhatsApp, Instagram Stories
-- [ ] Gate: limitado no free, ilimitado no premium
+- [x] `src/features/verse-card/` completo
+- [x] Templates visuais (natureza, minimalista, aquarela, escuro)
+- [x] Selecao de versiculo + template
+- [x] Renderizacao com `react-native-view-shot`
+- [x] Download em alta resolucao
+- [x] Compartilhamento para WhatsApp, Instagram Stories
+- [x] Gate: limitado no free, ilimitado no premium
 
 ### 5.2 Audio Player
 
-- [ ] `AudioPlayer` (mini + full) — componente compartilhado
-- [ ] Integracao com `expo-av`
-- [ ] Reproducao em background
-- [ ] Controle de velocidade (0.75x a 2x)
-- [ ] `src/features/audio-player/services/audioService.ts`
-- [ ] Gate: apenas premium
+- [x] `AudioPlayer` (mini + full) — componente compartilhado
+- [x] Integracao com `expo-av`
+- [x] Reproducao em background
+- [x] Controle de velocidade (0.75x a 2x)
+- [x] `src/features/audio-player/services/audioService.ts`
+- [x] Gate: apenas premium
 
 ### 5.3 Notificacoes
 
-- [ ] Configuracao de expo-notifications
-- [ ] Lembrete diario de leitura (horario personalizavel)
-- [ ] Verso do dia (push matinal)
-- [ ] Datas do calendario liturgico
-- [ ] Tela de configuracao de notificacoes no perfil
+- [x] Configuracao de expo-notifications
+- [x] Lembrete diario de leitura (horario personalizavel)
+- [x] Verso do dia (push matinal)
+- [x] Datas do calendario liturgico
+- [x] Tela de configuracao de notificacoes no perfil
 
 ### 5.4 Onboarding
 
-- [ ] Fluxo de 3-4 telas:
+- [x] Fluxo de 3-4 telas:
   1. Denominacao (evangelico, catolico, outro)
   2. Versao biblica preferida
   3. Objetivo (leitura diaria, estudo, devocionais)
   4. Horario de leitura (para notificacoes)
-- [ ] Salvar preferencias no Supabase (profiles)
-- [ ] Paywall ao final do onboarding
-- [ ] Exibir apenas no primeiro acesso
+- [x] Salvar preferencias no Supabase (profiles)
+- [x] Paywall ao final do onboarding
+- [x] Exibir apenas no primeiro acesso
 
 ### 5.5 Tela de Perfil
 
-- [ ] Streak de leitura e conquistas
-- [ ] Versiculos favoritos
-- [ ] Plano atual e botao de upgrade
-- [ ] Configuracoes de notificacao
-- [ ] Versao biblica preferida
-- [ ] Logout
+- [x] Streak de leitura e conquistas
+- [x] Versiculos favoritos
+- [x] Plano atual e botao de upgrade
+- [x] Configuracoes de notificacao
+- [x] Versao biblica preferida
+- [x] Logout
 
 ### Entregaveis
 
