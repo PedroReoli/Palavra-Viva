@@ -22,3 +22,6 @@ export { default as BottomSheet } from './BottomSheet';
 // Informacao
 export { default as Badge } from './Badge';
 export { default as Avatar } from './Avatar';
+
+// Biblico
+export { default as VerseCard } from './VerseCard';

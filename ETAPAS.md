@@ -11,82 +11,82 @@ Objetivo: App navegavel com design system, autenticacao e paywall funcional.
 
 ### 1.1 Setup do Projeto
 
-- [ ] Criar projeto Expo com TypeScript (`npx create-expo-app --template`)
-- [ ] Configurar Expo Router (file-based routing)
-- [ ] Configurar path aliases (`@/` para `src/`)
-- [ ] Configurar ESLint + Prettier
-- [ ] Criar `.env.example` com todas as variaveis
-- [ ] Configurar `.gitignore` adequado
+- [x] Criar projeto Expo com TypeScript (`npx create-expo-app --template`)
+- [x] Configurar Expo Router (file-based routing)
+- [x] Configurar path aliases (`@/` para `src/`)
+- [x] Configurar ESLint + Prettier
+- [x] Criar `.env.example` com todas as variaveis
+- [x] Configurar `.gitignore` adequado
 
 ### 1.2 Design System — Tokens
 
-- [ ] Criar `src/design/colors.ts` (paleta light + dark)
-- [ ] Criar `src/design/typography.ts` (Inter, Poppins, Lora)
-- [ ] Criar `src/design/spacing.ts` (grid 4pt)
-- [ ] Criar `src/design/radii.ts`
-- [ ] Criar `src/design/shadows.ts`
-- [ ] Criar `src/design/theme.ts` (export unificado + `useTheme()`)
-- [ ] Carregar fontes customizadas em `_layout.tsx` com `expo-font`
+- [x] Criar `src/design/colors.ts` (paleta light + dark)
+- [x] Criar `src/design/typography.ts` (Inter, Poppins, Lora)
+- [x] Criar `src/design/spacing.ts` (grid 4pt)
+- [x] Criar `src/design/radii.ts`
+- [x] Criar `src/design/shadows.ts`
+- [x] Criar `src/design/theme.ts` (export unificado + `useTheme()`)
+- [x] Carregar fontes customizadas em `_layout.tsx` com `expo-font`
 
 ### 1.3 Design System — Componentes Base
 
-- [ ] `Typography` (Heading, Body, Caption, VerseText)
-- [ ] `Button` (primary, secondary, ghost, outline)
-- [ ] `Input` (text, search)
-- [ ] `Card` (base reutilizavel)
-- [ ] `Badge`
-- [ ] `Avatar`
-- [ ] `Modal`
-- [ ] `BottomSheet`
-- [ ] `index.ts` com re-exports
+- [x] `Typography` (Heading, Body, Caption, VerseText)
+- [x] `Button` (primary, secondary, ghost, outline)
+- [x] `Input` (text, search)
+- [x] `Card` (base reutilizavel)
+- [x] `Badge`
+- [x] `Avatar`
+- [x] `Modal`
+- [x] `BottomSheet`
+- [x] `index.ts` com re-exports
 
 ### 1.4 Navegacao
 
-- [ ] `src/app/_layout.tsx` (root layout com providers)
-- [ ] Grupo `(auth)/` com `_layout.tsx`, `login.tsx`, `register.tsx`, `onboarding.tsx`
-- [ ] Grupo `(tabs)/` com `_layout.tsx`, `index.tsx`, `bible.tsx`, `ai.tsx`, `calendar.tsx`, `profile.tsx`
-- [ ] Tab bar customizado com icones Phosphor
-- [ ] `+not-found.tsx`
+- [x] `src/app/_layout.tsx` (root layout com providers)
+- [x] Grupo `(auth)/` com `_layout.tsx`, `login.tsx`, `register.tsx`, `onboarding.tsx`
+- [x] Grupo `(tabs)/` com `_layout.tsx`, `index.tsx`, `bible.tsx`, `ai.tsx`, `calendar.tsx`, `profile.tsx`
+- [x] Tab bar customizado com icones Phosphor
+- [x] `+not-found.tsx`
 
 ### 1.5 Supabase
 
-- [ ] Configurar cliente Supabase (`src/lib/supabase.ts`)
-- [ ] Criar schema do banco (todas as tabelas do README)
-- [ ] Ativar Row Level Security em todas as tabelas
-- [ ] Configurar auth com email/senha
+- [x] Configurar cliente Supabase (`src/lib/supabase.ts`)
+- [x] Criar schema do banco (todas as tabelas do README)
+- [x] Ativar Row Level Security em todas as tabelas
+- [x] Configurar auth com email/senha
 - [ ] Configurar auth social (Google, Apple)
 
 ### 1.6 Autenticacao
 
-- [ ] `src/features/auth/services/authService.ts`
-- [ ] `src/features/auth/stores/authStore.ts` (Zustand)
-- [ ] `src/features/auth/hooks/useAuth.ts`
-- [ ] Tela de login funcional
-- [ ] Tela de registro funcional
-- [ ] Persistencia de sessao com `expo-secure-store`
-- [ ] Protecao de rotas (redirect se nao autenticado)
+- [x] `src/features/auth/services/authService.ts`
+- [x] `src/features/auth/stores/authStore.ts` (Zustand)
+- [x] `src/features/auth/hooks/useAuth.ts`
+- [x] Tela de login funcional
+- [x] Tela de registro funcional
+- [x] Persistencia de sessao com `expo-secure-store`
+- [x] Protecao de rotas (redirect se nao autenticado)
 
 ### 1.7 RevenueCat — Pagamento
 
-- [ ] Configurar RevenueCat SDK (`src/lib/revenuecat.ts`)
+- [x] Configurar RevenueCat SDK (`src/lib/revenuecat.ts`)
 - [ ] Definir offerings no dashboard RevenueCat (mensal R$19,90, anual R$149,90)
-- [ ] `src/features/subscription/services/subscriptionService.ts`
-- [ ] `src/features/subscription/stores/subscriptionStore.ts`
-- [ ] `src/features/subscription/hooks/useSubscription.ts`
-- [ ] `src/features/subscription/hooks/useRequirePremium.ts` (gate hook)
-- [ ] Tela de paywall com comparacao de planos
-- [ ] Restaurar compras
+- [x] `src/features/subscription/services/subscriptionService.ts`
+- [x] `src/features/subscription/stores/subscriptionStore.ts`
+- [x] `src/features/subscription/hooks/useSubscription.ts`
+- [x] `src/features/subscription/hooks/useRequirePremium.ts` (gate hook)
+- [x] Tela de paywall com comparacao de planos
+- [x] Restaurar compras
 - [ ] Testar fluxo completo com sandbox
 
 ### 1.8 VPS API — Base
 
-- [ ] Setup do projeto Node.js + Express + TypeScript
-- [ ] `POST /auth/register`
-- [ ] `POST /auth/login`
-- [ ] `POST /auth/refresh-token`
-- [ ] `POST /subscription/webhook` (RevenueCat)
-- [ ] `GET /subscription/status`
-- [ ] Rate limiting e validacao de input (zod)
+- [x] Setup do projeto Node.js + Express + TypeScript
+- [x] `POST /auth/register`
+- [x] `POST /auth/login`
+- [x] `POST /auth/refresh-token`
+- [x] `POST /subscription/webhook` (RevenueCat)
+- [x] `GET /subscription/status`
+- [x] Rate limiting e validacao de input (zod)
 - [ ] Deploy inicial na VPS
 
 ### Entregaveis
@@ -105,44 +105,44 @@ Objetivo: Leitor biblico completo com destaques, notas e verso do dia.
 
 ### 2.1 Integracao API.Bible
 
-- [ ] `src/features/bible/services/bibleService.ts`
-- [ ] Configurar Axios instance para API.Bible
-- [ ] Listar versoes disponiveis (ARA, NVI, ACF)
-- [ ] Listar livros por versao
-- [ ] Buscar capitulos e versiculos
-- [ ] Cache com TanStack Query (staleTime longo — conteudo estatico)
+- [x] `src/features/bible/services/bibleService.ts`
+- [x] Configurar Axios instance para API.Bible
+- [x] Listar versoes disponiveis (ARA, NVI, ACF)
+- [x] Listar livros por versao
+- [x] Buscar capitulos e versiculos
+- [x] Cache com TanStack Query (staleTime longo — conteudo estatico)
 
 ### 2.2 Leitor Biblico
 
-- [ ] Tela de selecao de versao biblica
-- [ ] Tela de selecao de livro (Antigo/Novo Testamento)
-- [ ] Tela de selecao de capitulo
-- [ ] Componente de leitura com tipografia Lora
-- [ ] Modo noturno (dark mode no leitor)
-- [ ] Ajuste de tamanho de fonte
-- [ ] Scroll suave entre capitulos
+- [x] Tela de selecao de versao biblica
+- [x] Tela de selecao de livro (Antigo/Novo Testamento)
+- [x] Tela de selecao de capitulo
+- [x] Componente de leitura com tipografia Lora
+- [x] Modo noturno (dark mode no leitor)
+- [x] Ajuste de tamanho de fonte
+- [x] Scroll suave entre capitulos
 
 ### 2.3 Interacao com Versiculos
 
-- [ ] Selecao de versiculo (long press)
-- [ ] Menu de acoes: destacar, anotar, copiar, compartilhar, favoritar
-- [ ] Sistema de cores para destaques (5 cores)
-- [ ] Persistencia de destaques no Supabase
-- [ ] Persistencia de notas no Supabase
-- [ ] `src/features/bible/stores/bibleStore.ts`
+- [x] Selecao de versiculo (long press)
+- [x] Menu de acoes: destacar, anotar, copiar, compartilhar, favoritar
+- [x] Sistema de cores para destaques (5 cores)
+- [x] Persistencia de destaques no Supabase
+- [x] Persistencia de notas no Supabase
+- [x] `src/features/bible/stores/bibleStore.ts`
 
 ### 2.4 Busca
 
-- [ ] Busca por palavra ou frase em toda a Biblia
-- [ ] Resultados com contexto (versiculo + referencia)
-- [ ] Componente `Input` variante search
+- [x] Busca por palavra ou frase em toda a Biblia
+- [x] Resultados com contexto (versiculo + referencia)
+- [x] Componente `Input` variante search
 
 ### 2.5 Versiculo do Dia
 
-- [ ] Logica de selecao do verso diario
-- [ ] `VerseCard` na home (componente compartilhado)
-- [ ] Compartilhamento do verso (texto + imagem)
-- [ ] Notificacao push diaria com expo-notifications
+- [x] Logica de selecao do verso diario
+- [x] `VerseCard` na home (componente compartilhado)
+- [x] Compartilhamento do verso (texto + imagem)
+- [x] Notificacao push diaria com expo-notifications
 
 ### Entregaveis
 

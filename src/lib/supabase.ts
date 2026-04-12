@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import type { Database } from '@/shared/types/database';
+// Tipos serao gerados automaticamente com: npx supabase gen types typescript
+// Por enquanto, o client funciona sem tipagem estrita nas tabelas.
 
 // ---------------------------------------------------------------------------
 // Secure Storage adapter para Supabase Auth
@@ -38,7 +39,7 @@ const SecureStoreAdapter = {
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? '';
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: SecureStoreAdapter,
     autoRefreshToken: true,
