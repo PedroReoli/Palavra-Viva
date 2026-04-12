@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Read(//f/Projetos/Reoli/_SaaS//**)",
+      "Read(//f/Projetos/Reoli/_SaaS/**)"
+    ]
+  }
+}
